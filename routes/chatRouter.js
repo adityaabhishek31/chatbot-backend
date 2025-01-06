@@ -54,7 +54,6 @@ chatRouter.post(
         .json({ error: "User coordinates (latitude, longitude) are required." });
     }
 
-    // Prepare an array of station coordinates for distance calculation
     const stationCoordinates = dummyCordinatesOfBangalore.map((station) => ({
       stationID: station.stationID,
       latitude: station.location.coordinates[0],
@@ -64,7 +63,6 @@ chatRouter.post(
       state: station.location.state,
     }));
 
-    // Calculate distances and order by proximity
     const orderedStations = geolib.orderByDistance(
       { latitude: coordinates.latitude, longitude: coordinates.longitude },
       stationCoordinates.map((station) => ({
@@ -73,15 +71,12 @@ chatRouter.post(
       }))
     );
 
-    // Take the top 3 closest stations
     const nearestStations = orderedStations.slice(0, 3).map((station) => {
-      // Find the original station object
       const originalStation = stationCoordinates.find(
         (s) =>
           s.latitude === station.latitude && s.longitude === station.longitude
       );
 
-      // Calculate distance in meters and convert to kilometers
       const distanceInMeters = geolib.getDistance(
         { latitude: coordinates.latitude, longitude: coordinates.longitude },
         { latitude: originalStation.latitude, longitude: originalStation.longitude }
@@ -92,7 +87,7 @@ chatRouter.post(
         area: originalStation.area,
         city: originalStation.city,
         state: originalStation.state,
-        distanceInKm: (distanceInMeters / 1000).toFixed(2), // Convert meters to kilometers
+        distanceInKm: (distanceInMeters / 1000).toFixed(2),
       };
     });
 

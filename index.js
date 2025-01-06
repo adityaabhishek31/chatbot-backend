@@ -5,7 +5,10 @@ import cors from "cors";
 import CookieParser from 'cookie-parser'
 import chatRouter from "./routes/chatRouter.js";
 import { errorHandler, notFound } from "./middlewares/errors.js";
-
+import userRouter from "./routes/userRouter.js";
+import StationRouter from "./routes/stationRouter.js";
+import Bookingrouter from "./routes/bookingsRouter.js";
+import mongoose from "mongoose";
 
 dotenv.config();
 const app = express();
@@ -16,28 +19,27 @@ app.use(express.json());
 
 app.use(helmet());
 app.use((req, res, next) => {
-    // Iterate through all the headers
-    Object.entries(req.headers).forEach(([header, value]) => {
-        // Log each header and its value
-        //logger.info(`Header: ${header}, Value: ${value}`);
-    });
-
-    // Remove the "Server" header
     res.removeHeader('Server');
-
-    // Log the removal of the header
-    //logger.info('Removed "Server" header from the response');
-
     next();
 });
 
 const PORT = process.env.PORT;
 app.use(cors({
-    origin: ['https://www.fortitudemobility.com',  'http://localhost:3000'],
+    origin: ['https://www.fortitudemobility.com', 'http://localhost:3000', 'https://oser.ai'],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'X-Content-Type-Options'],
     credentials: true
 }));
+
+const connectDB = async () => {
+    try {
+        await mongoose.connect(process.env.MONGO_URI);
+        console.log("Connected to MongoDB");
+    } catch (error) {
+        console.log(error);
+    }
+};
+connectDB();
 
 app.get('/api/chat', (req, res) => {
     res.status(200)
@@ -48,7 +50,9 @@ app.get('/api/chat', (req, res) => {
 
 
 app.use("/api/chat/", chatRouter);
-// app.use("/api/users", feedbackRouter);
+app.use('/api/user', userRouter);
+app.use('/api/station', StationRouter);
+app.use('/api/booking', Bookingrouter);
 app.use(notFound);
 app.use(errorHandler);
 app.use(express.json())
