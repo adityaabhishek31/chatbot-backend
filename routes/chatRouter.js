@@ -15,7 +15,7 @@ const dummyCordinatesOfBangalore = [
     },
   },
   {
-    stationID: "AFC24WS_should_be_2nd_closest",
+    stationID: "AFC24WS",
     location: {
       coordinates: [12.982362, 77.640006],
       area: "Indiranagar",
@@ -33,10 +33,26 @@ const dummyCordinatesOfBangalore = [
     },
   },
   {
-    stationID: "AFC26WS_should_be_closest",
+    stationID: "AFC26WS",
     location: {
       coordinates: [12.978609, 77.643997],
       area: "Indiranagar",
+      city: "Bengaluru",
+      state: "Karnataka",
+    },
+  },{
+    stationID: "AFC27WS",
+    location: {
+      coordinates: [12.845281, 77.653426],
+      area: "Electronic City Phase 1",
+      city: "Bengaluru",
+      state: "Karnataka",
+    },
+  },{
+    stationID: "AFC28WS",
+    location: {
+      coordinates: [12.857164, 77.679862],
+      area: "Electronic City Phase 2",
       city: "Bengaluru",
       state: "Karnataka",
     },
