@@ -25,10 +25,27 @@ app.use((req, res, next) => {
 
 const PORT = process.env.PORT;
 app.use(cors({
-    origin: ['http://localhost:3000', 'https://www.oser.ai/', 'https://adityaabhishek31.github.io/','https://adityaabhishek31.github.io/oser-ai/', 'https://oser.ai'],
+    origin: [
+        'http://localhost:3000',
+        'https://www.oser.ai',
+        'https://oser.ai',
+        'https://chatbot-backend-1mld.onrender.com'
+    ],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'X-Content-Type-Options'],
-    credentials: true
+    allowedHeaders: [
+        'Content-Type',
+        'Authorization',
+        'X-Content-Type-Options',
+        'Cookie',
+        'Accept',
+        'Origin',
+        'X-Requested-With'
+    ],
+    credentials: true,
+    exposedHeaders: ['set-cookie'],
+    preflightContinue: false,
+    optionsSuccessStatus: 204,
+    maxAge: 86400 // 24 hours
 }));
 
 const connectDB = async () => {
@@ -55,8 +72,6 @@ app.use('/api/station', StationRouter);
 app.use('/api/booking', Bookingrouter);
 app.use(notFound);
 app.use(errorHandler);
-app.use(express.json())
-
 app.listen(PORT || process.env.PORT, (req, res) => {
     console.log(`server is running at port ${PORT}`);
 });
