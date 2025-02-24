@@ -25,7 +25,7 @@ app.use((req, res, next) => {
 
 const PORT = process.env.PORT;
 app.use(cors({
-    origin: ['https://www.fortitudemobility.com', 'http://localhost:3000','https://www.oser.ai/', 'https://oser.ai'],
+    origin: ['http://localhost:3000', 'https://www.oser.ai/', 'https://adityaabhishek31.github.io/', 'https://oser.ai'],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'X-Content-Type-Options'],
     credentials: true
